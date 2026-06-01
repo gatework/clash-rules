@@ -1,6 +1,6 @@
 # 简介 ![GitHub Downloads (all assets, all releases)](https://img.shields.io/github/downloads/gatework/clash-rules/total?logo=github) ![GitHub Downloads (all assets, latest release)](https://img.shields.io/github/downloads/gatework/clash-rules/latest/total?logo=github) [![jsdelivr stats](https://data.jsdelivr.com/v1/package/gh/gatework/clash-rules/badge?style=rounded)](https://www.jsdelivr.com/package/gh/gatework/clash-rules)
 
-本项目生成适用于 [**Clash Premium 内核**](https://github.com/Dreamacro/clash/releases/tag/premium)的规则集（RULE-SET），同时适用于所有使用 Clash Premium 内核的 Clash 图形用户界面（GUI）客户端，包括但不限于 [ClashX Pro](https://github.com/Loyalsoldier/clash-rules/tree/hidden/software/clashx-pro)、[clash-party](https://github.com/mihomo-party-org/clash-party)、[clash-verge-rev](https://github.com/clash-verge-rev/clash-verge-rev)、[Clash for Windows](https://github.com/Loyalsoldier/clash-rules/tree/hidden/software/clash-for-windows)、[clashmi](https://github.com/KaringX/clashmi)、[Clash Meta for Android](https://github.com/MetaCubeX/ClashMetaForAndroid)、[OpenClash](https://github.com/vernesong/OpenClash)。使用 GitHub Actions 北京时间每天早上 6:30 自动构建，保证规则最新。
+本项目生成适用于 [**Clash Premium 内核**](https://github.com/Dreamacro/clash/releases/tag/premium)的规则集（RULE-SET），同时适用于所有使用 Clash Premium 内核的 Clash 图形用户界面（GUI）客户端，包括但不限于 [ClashX Pro](https://github.com/gatework/clash-rules/tree/hidden/software/clashx-pro)、[clash-party](https://github.com/mihomo-party-org/clash-party)、[clash-verge-rev](https://github.com/clash-verge-rev/clash-verge-rev)、[Clash for Windows](https://github.com/gatework/clash-rules/tree/hidden/software/clash-for-windows)、[clashmi](https://github.com/KaringX/clashmi)、[Clash Meta for Android](https://github.com/MetaCubeX/ClashMetaForAndroid)、[OpenClash](https://github.com/vernesong/OpenClash)。使用 GitHub Actions 北京时间每天早上 6:30 自动构建，保证规则最新。
 
 ## 说明
 
@@ -10,16 +10,16 @@
 
 ### Clash Premium 客户端下载地址
 
-> ⚠️ 由于 Clash 及其部分周边生态项目于 2023 年 11 月上旬删库跑路，部分官方原版安装包、可执行文件可在上游归档 [**hidden**](https://github.com/Loyalsoldier/clash-rules/tree/hidden) 分支查看。
+> ⚠️ 由于 Clash 及其部分周边生态项目于 2023 年 11 月上旬删库跑路，部分官方原版安装包、可执行文件可在上游归档 [**hidden**](https://github.com/gatework/clash-rules/tree/hidden) 分支查看。
 
 - Clash Premium **命令行**版：
-  - [官方版](https://github.com/Loyalsoldier/clash-rules/tree/hidden/software/clash-premium)（适用于 Windows、macOS、Linux、OpenWRT 等多种平台，**已停止更新**）
+  - [官方版](https://github.com/gatework/clash-rules/tree/hidden/software/clash-premium)（适用于 Windows、macOS、Linux、OpenWRT 等多种平台，**已停止更新**）
   - [mihomo](https://github.com/MetaCubeX/mihomo/releases)（适用于 Windows、macOS、Linux、Android、OpenWRT 等多种平台）
 - Clash Premium **图形用户界面**版：
-  - [ClashX Pro](https://github.com/Loyalsoldier/clash-rules/tree/hidden/software/clashx-pro)（适用于 macOS，**已停止更新**）
+  - [ClashX Pro](https://github.com/gatework/clash-rules/tree/hidden/software/clashx-pro)（适用于 macOS，**已停止更新**）
   - [clash-party](https://github.com/mihomo-party-org/clash-party)（适用于 Windows、macOS、Linux）
   - [clash-verge-rev](https://github.com/clash-verge-rev/clash-verge-rev)（适用于 Windows、macOS、Linux）
-  - [Clash for Windows](https://github.com/Loyalsoldier/clash-rules/tree/hidden/software/clash-for-windows)（适用于 Windows、macOS、Linux，**已停止更新**）
+  - [Clash for Windows](https://github.com/gatework/clash-rules/tree/hidden/software/clash-for-windows)（适用于 Windows、macOS、Linux，**已停止更新**）
   - [clashmi](https://github.com/KaringX/clashmi)（适用于 Windows、macOS、Linux、iOS、Android）
   - [Clash Meta for Android](https://github.com/MetaCubeX/ClashMetaForAndroid)（适用于 Android）
   - [OpenClash](https://github.com/vernesong/OpenClash)（适用于 OpenWRT）
