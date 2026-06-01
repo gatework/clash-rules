@@ -29,7 +29,7 @@ APPLICATIONS_FILE="${APPLICATIONS_FILE:-rules/applications.txt}"
 DOMAIN_RE='^[-_[:alnum:]]+(\.[-_[:alnum:]]+)*$'
 
 fetch() {
-  curl --fail --location --silent --show-error --retry 3 --retry-delay 2 "$1"
+  curl --fail --location --silent --show-error --retry 3 --retry-delay 2 --connect-timeout 10 --max-time 60 "$1"
 }
 
 write_payload() {
@@ -128,8 +128,27 @@ copy_applications() {
 work_dir="$(mktemp -d)"
 trap 'rm -rf "${work_dir}"' EXIT
 
+output_files=(
+  icloud.txt
+  google.txt
+  apple.txt
+  private.txt
+  direct.txt
+  proxy.txt
+  reject.txt
+  gfw.txt
+  greatfire.txt
+  tld-not-cn.txt
+  cncidr.txt
+  telegramcidr.txt
+  lancidr.txt
+  applications.txt
+)
+
 mkdir -p "${output_dir}"
-find "${output_dir}" -maxdepth 1 -type f -name '*.txt' -exec rm -f {} +
+for file in "${output_files[@]}"; do
+  rm -f "${output_dir}/${file}"
+done
 
 cd "${work_dir}"
 generate_icloud
@@ -147,5 +166,7 @@ generate_cidr_rules "${TELEGRAM_CIDR_URL}" telegramcidr.txt
 generate_cidr_rules "${LAN_CIDR_URL}" lancidr.txt
 copy_applications
 
-cp ./*.txt "${output_dir}/"
+for file in "${output_files[@]}"; do
+  cp "${file}" "${output_dir}/"
+done
 printf 'Generated rule files in %s\n' "${output_dir}"

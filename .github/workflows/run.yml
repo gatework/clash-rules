@@ -5,8 +5,6 @@ on:
   schedule:
     - cron: "30 22 * * *"
   push:
-    branches:
-      - master
     paths-ignore:
       - "README.md"
       - "LICENSE"
@@ -20,6 +18,7 @@ concurrency:
 
 jobs:
   build:
+    if: ${{ github.event_name == 'schedule' || github.event_name == 'workflow_dispatch' || github.ref_name == github.event.repository.default_branch }}
     runs-on: ubuntu-latest
     timeout-minutes: 15
 
@@ -30,9 +29,9 @@ jobs:
       - name: Set release variables
         run: |
           set -euo pipefail
-          release_time="$(date -u +%Y%m%d%H%M)"
+          release_time="$(date -u +%Y%m%d%H%M%S)"
           echo "RELEASE_NAME=Released on ${release_time}" >> "${GITHUB_ENV}"
-          echo "TAG_NAME=${release_time}" >> "${GITHUB_ENV}"
+          echo "TAG_NAME=${release_time}-${GITHUB_RUN_ID}" >> "${GITHUB_ENV}"
         shell: bash
 
       - name: Generate rule files
@@ -56,11 +55,25 @@ jobs:
           git -C publish init
           git -C publish config --local user.name "github-actions[bot]"
           git -C publish config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git -C publish checkout -b release
-          git -C publish add .
-          git -C publish commit -m "${RELEASE_NAME}"
           git -C publish remote add origin "https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
-          git -C publish push --force origin release
+          git -C publish fetch --depth=1 origin release || true
+          if git -C publish show-ref --verify --quiet refs/remotes/origin/release; then
+            git -C publish checkout -B release origin/release
+          else
+            git -C publish checkout -b release
+          fi
+          git -C publish add .
+          if ! git -C publish diff --cached --quiet; then
+            git -C publish commit -m "${RELEASE_NAME}"
+            if git -C publish show-ref --verify --quiet refs/remotes/origin/release; then
+              remote_release_sha="$(git -C publish rev-parse refs/remotes/origin/release)"
+              git -C publish push --force-with-lease=refs/heads/release:${remote_release_sha} origin release
+            else
+              git -C publish push origin release
+            fi
+          else
+            echo "No release asset changes, skipping push."
+          fi
         shell: bash
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -71,6 +84,7 @@ jobs:
           find publish -maxdepth 1 -type f -name '*.txt' -print0 | while IFS= read -r -d '' file; do
             file_name="${file##*/}"
             curl --fail --location --silent --show-error --retry 3 \
+              --connect-timeout 5 --max-time 30 \
               "https://purge.jsdelivr.net/gh/${GITHUB_REPOSITORY}@release/${file_name}" \
               > /dev/null
           done
