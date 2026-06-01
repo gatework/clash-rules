@@ -37,6 +37,18 @@ jobs:
       - name: Generate rule files
         run: ./scripts/generate-rules.sh publish
 
+      - name: Summarize generated assets
+        run: |
+          set -euo pipefail
+          echo "Generated assets in publish/:"
+          find publish -maxdepth 1 -type f -name '*.txt' -print0 | sort -z | while IFS= read -r -d '' file; do
+            file_name="${file##*/}"
+            line_count="$(wc -l < "${file}")"
+            size_bytes="$(stat -c %s "${file}")"
+            printf " - %s: lines=%s size=%s bytes\n" "${file_name}" "${line_count}" "${size_bytes}"
+          done
+        shell: bash
+
       - name: Release and upload assets
         uses: softprops/action-gh-release@v3
         with:
