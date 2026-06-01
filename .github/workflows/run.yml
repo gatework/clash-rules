@@ -64,6 +64,9 @@ jobs:
       - name: Git push assets to "release" branch
         run: |
           set -euo pipefail
+          generated_dir="$(mktemp -d)"
+          cp publish/*.txt "${generated_dir}/"
+
           git -C publish init
           git -C publish config --local user.name "github-actions[bot]"
           git -C publish config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
@@ -74,7 +77,9 @@ jobs:
           else
             git -C publish checkout -b release
           fi
-          git -C publish add .
+          find publish -maxdepth 1 -mindepth 1 -name '.git' -prune -o -type f -name '*.txt' -print -exec rm -f {} +
+          cp "${generated_dir}"/* publish/
+          git -C publish add ./*.txt
           if ! git -C publish diff --cached --quiet; then
             git -C publish commit -m "${RELEASE_NAME}"
             if git -C publish show-ref --verify --quiet refs/remotes/origin/release; then
@@ -86,6 +91,7 @@ jobs:
           else
             echo "No release asset changes, skipping push."
           fi
+          rm -rf "${generated_dir}"
         shell: bash
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
